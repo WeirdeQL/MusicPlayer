@@ -1,6 +1,7 @@
 package com.example.experimentmusicplayer.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.experimentmusicplayer.R;
 import com.example.experimentmusicplayer.entity.MusicEntity;
+import com.example.experimentmusicplayer.util.BitMapUtil;
 
 import java.util.List;
 
@@ -26,7 +28,8 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
     private Context context;
     private OnItemClickListener listener;
-    List<MusicEntity> list;
+    private List<MusicEntity> list;
+    private Bitmap bitmap;
 
     public MusicListAdapter(List<MusicEntity> list) {
         this.list=list;
@@ -42,7 +45,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final MusicEntity musicEntity=list.get(position);
         holder.pic.setImageBitmap(musicEntity.getPic());
         holder.id.setText(musicEntity.getMusicId().toString());
@@ -51,7 +54,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.touch(musicEntity);
+                listener.touch(musicEntity,position);
             }
         });
 
@@ -78,10 +81,12 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     }
 
     public interface OnItemClickListener{
-        void touch(MusicEntity musicEntity);
+        void touch(MusicEntity musicEntity,int pos);
     }
     public void setListener(OnItemClickListener listener) {
 
         this.listener = listener;
     }
+
+
 }

@@ -49,6 +49,7 @@
         </TextView>
 
         <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/musicSeekBar"
             android:layout_width="330dp"
             android:layout_height="wrap_content">
 
@@ -58,7 +59,6 @@
             android:id="@+id/timeEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:text="02:55">
 
         </TextView>
@@ -85,6 +85,7 @@
         </androidx.appcompat.widget.AppCompatImageButton>
 
         <ImageButton
+            android:id="@+id/lastMusic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
@@ -94,6 +95,7 @@
         </ImageButton>
 
         <ImageButton
+            android:id="@+id/playOrPause"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@null"
@@ -102,6 +104,7 @@
         </ImageButton>
 
         <ImageButton
+            android:id="@+id/nextMusic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"

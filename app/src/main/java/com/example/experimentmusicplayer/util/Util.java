@@ -22,7 +22,7 @@ public class Util {
         list=new ArrayList<>();
 
         for(int i=0;i<3;i++){
-            list.add(new MusicEntity(null,i,"专辑"+i,0,"桥边姑娘","桥边姑娘",3000,"舞蹈女神若涵",null,"true"));
+            list.add(new MusicEntity(null,i,"专辑"+i,"0","桥边姑娘","桥边姑娘",3000,"舞蹈女神若涵",null,"true"));
         }
         return list;
     }

@@ -28,6 +28,7 @@ import com.example.experimentmusicplayer.R;
 import com.example.experimentmusicplayer.entity.MusicEntity;
 import com.example.experimentmusicplayer.fragment.NativeFragment;
 import com.example.experimentmusicplayer.fragment.OnlineFragment;
+import com.example.experimentmusicplayer.util.BitMapUtil;
 import com.example.experimentmusicplayer.viewPager.IndexViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -35,6 +36,9 @@ import java.util.List;
 
 import static java.security.AccessController.getContext;
 
+/**
+ * zhuhan
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager pager;
@@ -153,24 +157,27 @@ public class MainActivity extends AppCompatActivity {
         int count = query.getCount();
         while (query.moveToNext()){
 
-            Uri uri=Uri.parse("content://media/external/audio/albums/"+query.getColumnIndex(MediaStore.Audio.Media._ID));
+            /*Uri uri=Uri.parse("content://media/external/audio/albums/"+query.getInt(query.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
             Cursor query1 = resolver.query(uri, new String[]{"album_art"}, null, null, null);
-            int count1 = query1.getCount();
-            Bitmap bitmap =null;
-            if(count1!=0){
-                String album_art = query1.getString(query1.getColumnIndex("album_art"));
+            query1.moveToFirst();
+            count = query1.getCount();*/
+            Bitmap bitmap=BitmapFactory.decodeResource(this.getResources(),R.drawable.music_icon);
+            /*if(false){
+                String album_art = query1.getString(0);
                 bitmap = BitmapFactory.decodeFile(album_art);
+                if(bitmap==null){
+                    bitmap=BitmapFactory.decodeResource(MainActivity.this.getResources(),R.drawable.music_icon);
+                }
             }else{
                 bitmap=BitmapFactory.decodeResource(MainActivity.this.getResources(),R.drawable.music_icon);
-            }
-
-            MusicEntity musicEntity=new MusicEntity(bitmap,
-                    query.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID),
+            }*/
+            MusicEntity musicEntity=new MusicEntity(MusicEntity.getBytesFromBitmap(bitmap),
+                    query.getInt(query.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)),
                     query.getString(query.getColumnIndex(MediaStore.Audio.Media.ALBUM)),
-                    query.getColumnIndex(MediaStore.Audio.Media._ID),
+                    query.getString(query.getColumnIndex(MediaStore.Audio.Media._ID)),
                     query.getString(query.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)),
                     query.getString(query.getColumnIndex(MediaStore.Audio.Media.TITLE)),
-                    query.getColumnIndex(MediaStore.Audio.Media.DURATION),
+                    query.getInt(query.getColumnIndex(MediaStore.Audio.Media.DURATION)),
                     query.getString(query.getColumnIndex(MediaStore.Audio.Media.ARTIST)),
                     query.getString(query.getColumnIndex(MediaStore.Audio.Media.DATA)),
                     query.getString(query.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC))

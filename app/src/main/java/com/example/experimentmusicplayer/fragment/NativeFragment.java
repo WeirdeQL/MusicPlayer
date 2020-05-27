@@ -1,5 +1,6 @@
 package com.example.experimentmusicplayer.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,11 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.experimentmusicplayer.R;
-import com.example.experimentmusicplayer.activity.MainActivity;
-import com.example.experimentmusicplayer.util.Util;
+import com.example.experimentmusicplayer.activity.MusicPlayActivity;
 import com.example.experimentmusicplayer.adapter.MusicListAdapter;
 import com.example.experimentmusicplayer.entity.MusicEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ import java.util.List;
  * @date 2020-05-09 10:59
  */
 public class NativeFragment extends Fragment {
-    List<MusicEntity> list;
+    private List<MusicEntity> list;
 
     public NativeFragment(List<MusicEntity> list) {
         this.list = list;
@@ -46,8 +47,14 @@ public class NativeFragment extends Fragment {
         adapter.setListener(new MusicListAdapter.OnItemClickListener() {
 
             @Override
-            public void touch(MusicEntity musicEntity) {
+            public void touch(MusicEntity musicEntity,int pos) {
                 Log.d("TAG", "touch: "+musicEntity.toString());
+                Intent intent=new Intent(getActivity(),MusicPlayActivity.class);
+                //点击的时候，应该打开一个新的界面，同时把播放列表和当前点击的位置传送过来
+                intent.putExtra("music", (Serializable) list);
+                intent.putExtra("current",pos);
+                intent.putExtra("change",true);
+                startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);

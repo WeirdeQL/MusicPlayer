@@ -1,18 +1,26 @@
 package com.example.experimentmusicplayer.entity;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * @author weirdo 灵雀丘
  * @version 1.0
  * @date 2020-05-12 9:35
  */
-public class MusicEntity {
-    private Bitmap pic;//图片
+public class MusicEntity implements Serializable {
+
+    private static final long serialVersionUID = 8604494830368708636L;
+    private byte[] bytes;
     private Integer albumId;//专辑id
     private String album;//专辑名
-    private Integer musicId;//音乐id
+    private String musicId;//音乐id
     private String displayName;//音乐文件名
     private String title;//歌曲名
     private Integer displayTime;//音乐时长
@@ -20,13 +28,6 @@ public class MusicEntity {
     private String path;//文件路径
     private String isMusic;//是否为音乐
 
-    public Bitmap getPic() {
-        return pic;
-    }
-
-    public void setPic(Bitmap pic) {
-        this.pic = pic;
-    }
 
     public Integer getAlbumId() {
         return albumId;
@@ -44,11 +45,11 @@ public class MusicEntity {
         this.album = album;
     }
 
-    public Integer getMusicId() {
+    public String getMusicId() {
         return musicId;
     }
 
-    public void setMusicId(Integer musicId) {
+    public void setMusicId(String musicId) {
         this.musicId = musicId;
     }
 
@@ -100,24 +101,16 @@ public class MusicEntity {
         this.isMusic = isMusic;
     }
 
-    @Override
-    public String toString() {
-        return "MusicEntity{" +
-                "pic=" + pic +
-                ", albumId=" + albumId +
-                ", album='" + album + '\'' +
-                ", musicId=" + musicId +
-                ", displayName='" + displayName + '\'' +
-                ", title='" + title + '\'' +
-                ", displayTime=" + displayTime +
-                ", artist='" + artist + '\'' +
-                ", path='" + path + '\'' +
-                ", isMusic='" + isMusic + '\'' +
-                '}';
+    public byte[] getBytes() {
+        return bytes;
     }
 
-    public MusicEntity(Bitmap pic, Integer albumId, String album, Integer musicId, String displayName, String title, Integer displayTime, String artist, String path, String isMusic) {
-        this.pic = pic;
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
+    }
+
+    public MusicEntity(byte[] bytes, Integer albumId, String album, String musicId, String displayName, String title, Integer displayTime, String artist, String path, String isMusic) {
+        this.bytes = bytes;
         this.albumId = albumId;
         this.album = album;
         this.musicId = musicId;
@@ -127,5 +120,46 @@ public class MusicEntity {
         this.artist = artist;
         this.path = path;
         this.isMusic = isMusic;
+    }
+
+    public MusicEntity() {
+
+    }
+
+    @Override
+    public String toString() {
+        return "MusicEntity{" +
+                ", albumId=" + albumId +
+                ", album='" + album + '\'' +
+                ", musicId='" + musicId + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", title='" + title + '\'' +
+                ", displayTime=" + displayTime +
+                ", artist='" + artist + '\'' +
+                ", path='" + path + '\'' +
+                ", isMusic='" + isMusic + '\'' +
+                '}';
+    }
+
+    //bitmap转byte
+    public static byte[] getBytesFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream =
+                new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        return outputStream.toByteArray();
+    }
+
+    //byte转bitmap
+    public static Bitmap getBitmapFromArrayBytes(byte[] bytes){
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    public Bitmap getPic(){
+        return getBitmapFromArrayBytes(this.bytes);
+    }
+
+    public void setPic(Bitmap bitmap){
+        this.bytes=getBytesFromBitmap(bitmap);
+
     }
 }
